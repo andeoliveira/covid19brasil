@@ -7,15 +7,25 @@ import { Observable, of } from 'rxjs';
 })
 export class ApiClienteService {
 
-  url = 'https://brasil.io/api/dataset/covid19/';
-
+  urlBrasilIo = 'https://brasil.io/api/dataset/covid19/';
+  urlCoronaLmao = 'https://corona.lmao.ninja/v2/countries/brasil?yesterday=false&strict=false';
   constructor(private http:HttpClient) {
 
   }
 
+  carregarTotalPais(): Observable<any> {
+    return this.http.get(this.urlCoronaLmao);
+  }
+
   carregarDadosPorEstadoInicio(): Observable<any> {
     const detalhe = 'caso/data?is_last=True&place_type=state';
-    return this.http.get<any>(this.url + detalhe);
+    return this.http.get<any>(this.urlBrasilIo + detalhe);
+  }
+
+  carregarDadosPorEstadoDiaAnterior(data: any): Observable<any> {
+    const detalhe = `caso/data?is_last=True&place_type=state&date=${data}`;
+    const detalheAnt = `caso/data?search=&date=${data}&place_type=state`;
+    return this.http.get<any>(this.urlBrasilIo + detalheAnt);
   }
 
   carregarMensagensBanner(): Observable<any> {
