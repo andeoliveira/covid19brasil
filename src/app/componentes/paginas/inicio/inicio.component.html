@@ -7,7 +7,7 @@
           <h6 style="font-weight: 600;">Uma iniciativa open-source</h6>
         </div>
         <div class="last-update">
-          <h6>Last Updated</h6>
+          <h6>Última atualização</h6>
           <h6 style="color: rgb(40, 167, 69); font-weight: 600;">20 minutes Ago</h6>
           <h6 style="color: rgb(40, 167, 69); font-weight: 600;">11 Apr, 19:05 IST</h6>
         </div>
@@ -64,228 +64,148 @@
       <table class="table fadeInUp" style="animation-delay: 1.8s;">
         <thead>
           <tr>
-            <th class="sticky state-heading">
+            <th class="sticky state-heading" (click)="ordernarPorEstado()">
               <div class="heading-content"><abbr title="State">Estado/Sigla</abbr>
+                <div style="display: initial;">
+                  <div [ngClass]="ordenacaoAscendente ? 'arrow-down' : 'arrow-up'"></div>
+                </div>
+              </div>
+            </th>
+            <th class="sticky">
+              <div class="heading-content"><abbr class="" title="Confirmados">Confirmados</abbr>
                 <div style="display: none;">
                   <div class="arrow-down"></div>
                 </div>
               </div>
             </th>
             <th class="sticky">
-              <div class="heading-content"><abbr class="" title="Confirmed">Confirmados</abbr>
-                <div style="display: initial;"><div class="arrow-down"></div></div>
-              </div>
-            </th>
-            <th class="sticky">
-              <div class="heading-content"><abbr class="" title="Active">Ativos</abbr>
+              <div class="heading-content"><abbr class="" title="Óbitos">Óbitos</abbr>
                 <div style="display: none;"><div class="arrow-down"></div></div>
               </div>
             </th>
             <th class="sticky">
-              <div class="heading-content"><abbr class="" title="Recovered">Recuperados</abbr>
-                <div class=""></div><div style="display: none;"><div class="arrow-down"></div></div>
-              </div>
-            </th>
-            <th class="sticky">
-              <div class="heading-content"><abbr class="" title="Deaths">Óbitos</abbr>
+              <div class="heading-content"><abbr class="" title="Taxa de mortalidade">Taxa Mortalidade </abbr>
                 <div style="display: none;"><div class="arrow-down"></div></div>
               </div>
             </th>
           </tr>
         </thead>
         <tbody>
-          <tr class="state" *ngFor="let estado of form.get('estados')?.value">
-            <td style="font-weight: 600;">
-              <div class="table__title-wrapper">
-                <span class="dropdown rotateDownRight">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <ng-container *ngFor="let estado of dadosAtuais; let i = index">
+            <tr class="state" (click)="detalharEstado(estado, i)">
+              <td style="font-weight: 600;">
+                <div class="table__title-wrapper">
+                  <span [ngClass]="estado.index === i ?
+                  'dropdown rotateRightDown' : 'dropdown rotateDownRight'">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"   stroke-linejoin="round">
                     <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                  </span>
+                  {{estado.state}}
+                </div>
+              </td>
+              <td>
+                <span class="deltas" style="color: rgb(255, 7, 58);" *ngIf="estado.diaAnterior && estado.diaAnterior.confirmed">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="19" x2="12" y2="5"></line>
+                    <polyline points="5 12 12 5 19 12"></polyline>
                   </svg>
+                  {{estado.diaAnterior ? (estado.confirmed - estado.diaAnterior.confirmed) : ''}}
                 </span>
-                {{estado.state}}
-              </div>
-            </td>
-            <td>
-              <span class="deltas" style="color: rgb(255, 7, 58);">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="12" y1="19" x2="12" y2="5"></line>
-                  <polyline points="5 12 12 5 19 12"></polyline>
-                </svg>{{estado.diaAnterior ? (estado.confirmed - estado.diaAnterior.confirmed) : ''}}
-              </span>
-              <span class="table__count-text">{{estado.confirmed}}</span>
-            </td>
-            <td style="color: inherit;">1368</td><td style="color: inherit;">
-              <span class="deltas" style="color: rgb(40, 167, 69);"></span>
-              <span class="table__count-text">188</span>
-            </td>
-            <td style="color: inherit;">
-              <span class="deltas" style="color: rgb(108, 117, 125);"></span>
-              <span class="table__count-text">110</span>
-            </td>
-          </tr>
-          <tr class="state-last-update" style="display: none;">
-            <td colspan="2">
-              <div class="last-update"><h6>Last Updated&nbsp;</h6>
-                <h6 title="11 Apr, 15:50 IST">about 4 hours Ago</h6>
-              </div>
-            </td>
-          </tr>
-          <!--tr class="district-heading" style="display: none;">
-            <td>
-              <div class="heading-content"><abbr title="District">District</abbr>
-                <div style="display: none;">
-                  <div class="arrow-down"></div>
-                </div>
-              </div>
-            </td>
-            <td>
-              <div class="heading-content">
-                <abbr class="" title="Confirmed">Confirmed</abbr>
-                <div style="display: initial;">
-                  <div class="arrow-down"></div>
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr class="district" style="display: none; background: rgb(248, 249, 250);">
-            <td style="font-weight: 600;">Mumbai</td>
-            <td>
-              <span class="deltas" style="color: rgb(255, 7, 58);"></span>
-              <span class="table__count-text">1004</span>
-            </td>
-          </tr>
-          <tr class="district" style="display: none;">
-            <td style="font-weight: 600;">Pune</td>
-            <td>
-              <span class="deltas" style="color: rgb(255, 7, 58);"></span>
-              <span class="table__count-text">248</span>
-            </td>
-          </tr>
-          <tr class="district" style="display: none; background: rgb(248, 249, 250);">
-            <td style="font-weight: 600;">Thane</td>
-            <td>
-              <span class="deltas" style="color: rgb(255, 7, 58);"></span>
-              <span class="table__count-text">135</span>
-            </td>
-          </tr>
-          <tr class="district" style="display: none;">
-            <td style="font-weight: 600;">Sangli</td>
-            <td>
-              <span class="deltas" style="color: rgb(255, 7, 58);"></span>
-              <span class="table__count-text">26</span>
-            </td>
-          </tr>
-          <tr class="district" style="display: none; background: rgb(248, 249, 250);">
-            <td style="font-weight: 600;">Ahmadnagar</td>
-            <td>
-              <span class="deltas" style="color: rgb(255, 7, 58);"></span>
-              <span class="table__count-text">25</span>
-            </td>
-          </tr>
-          <tr class="district" style="display: none;">
-            <td style="font-weight: 600;">Nagpur</td>
-            <td>
-              <span class="deltas" style="color: rgb(255, 7, 58);"></span>
-              <span class="table__count-text">19</span>
-            </td>
-          </tr>
-          <tr class="district" style="display: none; background: rgb(248, 249, 250);">
-            <td style="font-weight: 600;">Aurangabad</td>
-            <td>
-              <span class="deltas" style="color: rgb(255, 7, 58);"></span>
-              <span class="table__count-text">17</span>
-            </td>
-          </tr>
-          <tr class="district" style="display: none;">
-            <td style="font-weight: 600;">Buldana</td><td>
-              <span class="deltas" style="color: rgb(255, 7, 58);"></span>
-              <span class="table__count-text">13</span>
-            </td>
-          </tr>
-          <tr class="district" style="display: none; background: rgb(248, 249, 250);">
-            <td style="font-weight: 600;">Akola</td>
-            <td>
-              <span class="deltas" style="color: rgb(255, 7, 58);"></span>
-              <span class="table__count-text">12</span>
-            </td>
-          </tr>
-          <tr class="district" style="display: none;">
-            <td style="font-weight: 600;">Other States*</td>
-            <td>
-              <span class="deltas" style="color: rgb(255, 7, 58);"></span>
-              <span class="table__count-text">8</span>
-            </td>
-          </tr>
-          <tr class="district" style="display: none; background: rgb(248, 249, 250);">
-            <td style="font-weight: 600;">Latur</td>
-            <td>
-              <span class="deltas" style="color: rgb(255, 7, 58);"></span>
-              <span class="table__count-text">8</span></td>
-            </tr>
-            <tr class="district" style="display: none;">
-              <td style="font-weight: 600;">Sindhudurg</td>
-              <td>
-                <span class="deltas" style="color: rgb(255, 7, 58);"></span>
-                <span class="table__count-text">1</span>
+                <span class="table__count-text">{{estado.confirmed}}</span>
+              </td>
+              <td style="color: inherit;">
+                <span class="deltas" style="color: rgb(108, 117, 125);"></span>
+                <span class="table__count-text">{{estado.deaths}}</span>
+              </td>
+              <td style="color: inherit;">
+                <span class="deltas" style="color: rgb(108, 117, 125);"></span>
+                <span class="table__count-text">{{estado.death_rate}}</span>
               </td>
             </tr>
-            <tr class="district" style="display: none;">
-              <td style="font-weight: 600;">Unknown</td>
-              <td>
-                <span class="deltas" style="color: rgb(255, 7, 58);">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>92</span><span class="table__count-text">92</span>
+            <tr *ngIf="estado.index === i"  class="state-last-update">
+              <td colspan="2">
+                <div class="last-update">
+                  <h6>Atualizado em:&nbsp;</h6>
+                  <h6>{{estado.date |date: 'dd/MM/yyyy'}}</h6>
+                </div>
               </td>
             </tr>
-            <tr class="spacer" style="display: none;">
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr -->
-          </tbody>
-        </table>
-        <h5 class="table-fineprint fadeInUp" style="animation-delay: 1s;">27 Estados afetados</h5>
+            <tr *ngIf="estado.index === i" style="animation-delay: 0.2s;" class="fadeInUp district-heading">
+              <td>
+                <div class="heading-content"><abbr title="Cidade">Cidade</abbr>
+                  <div style="display: initial;">
+                    <div class="arrow-down"></div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="heading-content">
+                  <abbr class="" title="Confirmados">Confirmados</abbr>
+                  <div style="display: initial;">
+                    <div class="arrow-down"></div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <ng-container *ngIf="estado.index === i && form.get('municipios').value">
+              <tr style="animation-delay: 0.7s;" class="fadeInUp district" *ngFor="let cidade of form.get('municipios').value; let i = index">
+                <td style="font-weight: 600;">{{cidade.city}}</td>
+                <td>
+                  <span class="table__count-text">{{cidade.confirmed}}</span>
+                </td>
+              </tr>
+              <tr class="spacer" style="display: initial;">
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </ng-container>
+          </ng-container>
+        </tbody>
+      </table>
+      <h5 class="table-fineprint fadeInUp" style="animation-delay: 1s;">27 Estados afetados</h5>
+    </div>
+    <div class="home-right"><div class="MapExplorer fadeInUp" style="animation-delay: 1.5s;"><div class="header">
+      <h1>India</h1>
+      <h6>Hover over a state/ut for more details</h6>
+    </div>
+    <div class="map-stats">
+      <div class="stats fadeInUp" style="animation-delay: 2s;">
+        <h5>Confirmed</h5>
+        <div class="stats-bottom">
+          <h1>1666</h1>
+          <h6></h6>
+        </div>
       </div>
-      <div class="home-right"><div class="MapExplorer fadeInUp" style="animation-delay: 1.5s;"><div class="header">
-        <h1>India</h1>
-        <h6>Hover over a state/ut for more details</h6>
-      </div>
-      <div class="map-stats">
-        <div class="stats fadeInUp" style="animation-delay: 2s;">
-          <h5>Confirmed</h5>
-          <div class="stats-bottom">
-            <h1>1666</h1>
-            <h6></h6>
-          </div>
-        </div>
-        <div class="stats is-blue fadeInUp" style="animation-delay: 2.1s;">
-          <h5>Active</h5>
-          <div class="stats-bottom">
-            <h1>1368</h1>
-            <h6></h6>
-          </div>
-        </div>
-        <div class="stats is-green fadeInUp" style="animation-delay: 2.2s;"><h5>Recovered</h5>
-          <div class="stats-bottom"><h1>188</h1><h6></h6></div>
-        </div>
-        <div class="stats is-gray fadeInUp" style="animation-delay: 2.3s;"><h5>Deceased</h5>
-          <div class="stats-bottom"><h1>110</h1><h6></h6></div>
-        </div>
-        <div class="stats is-purple tested fadeInUp" style="animation-delay: 2.4s;"><h5>Tested</h5>
-          <div class="stats-bottom"><h1>31841</h1></div>
-          <h6 class="timestamp">As of 11 Apr</h6>
-          <a href="https://twitter.com/Maha_MEDD" target="_noblank">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-            </svg>
-          </a>
+      <div class="stats is-blue fadeInUp" style="animation-delay: 2.1s;">
+        <h5>Active</h5>
+        <div class="stats-bottom">
+          <h1>1368</h1>
+          <h6></h6>
         </div>
       </div>
-      <div class="meta fadeInUp" style="animation-delay: 2.4s;"><h2>Maharashtra</h2>
-        <div class="last-update state-last-update"><h6>Last Updated</h6><h3 title="11 Apr, 15:50 IST">about 4 hours Ago</h3></div>
+      <div class="stats is-green fadeInUp" style="animation-delay: 2.2s;"><h5>Recovered</h5>
+        <div class="stats-bottom"><h1>188</h1><h6></h6></div>
       </div>
-      <div class="svg-parent fadeInUp" style="animation-delay: 2.5s;">
-        <svg id="chart" width="480" height="450" viewBox="0 0 480 450" preserveAspectRatio="xMidYMid meet"><g class="states">
+      <div class="stats is-gray fadeInUp" style="animation-delay: 2.3s;"><h5>Deceased</h5>
+        <div class="stats-bottom"><h1>110</h1><h6></h6></div>
+      </div>
+      <div class="stats is-purple tested fadeInUp" style="animation-delay: 2.4s;"><h5>Tested</h5>
+        <div class="stats-bottom"><h1>31841</h1></div>
+        <h6 class="timestamp">As of 11 Apr</h6>
+        <a href="https://twitter.com/Maha_MEDD" target="_noblank">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+    <div class="meta fadeInUp" style="animation-delay: 2.4s;"><h2>Maharashtra</h2>
+      <div class="last-update state-last-update"><h6>Last Updated</h6><h3 title="11 Apr, 15:50 IST">about 4 hours Ago</h3></div>
+    </div>
+    <div class="svg-parent fadeInUp" style="animation-delay: 2.5s;">
+      <svg id="chart" width="480" height="450" viewBox="0 0 480 450" preserveAspectRatio="xMidYMid meet"><g class="states">
           <path class="path-region" fill="rgb(255, 244, 239)" d="M389.9728160184575,443.3947997589372L391.0411071674648,446.2961876105354L389.7896803929136,449.9999999999999L387.347872052326,444.9462040816678ZM388.1414597630169,440.60703341467786L388.7213892439065,441.55559238567855L387.01212340549523,442.99252035968874ZM383.65463693718743,432.6676196445043L383.5935917286729,434.595950780211L382.6779136009525,433.50235171510786ZM385.60808360965757,429.8170682961205L385.3639027755987,432.5236877011943L384.6313602734224,430.62343501690344ZM375.6882372260209,416.0031457808552L376.17659889413835,417.013797910279L374.833604306815,417.5912193525752L374.7115138897859,416.263047839468ZM371.9339569023675,393.1317798146871L373.00224805137464,395.8594855027377L371.6592534640515,398.4694537876027L370.5909623150444,397.97658309652013L370.07207804266955,394.98913576221196ZM374.37576524295514,374.56856144909136L375.169352953646,375.41430902970717L374.89464951533,376.7845917136168L375.38301118344725,377.221809396616L374.61994607701376,378.62056180378505L375.5356242047342,378.7662351467185L374.77255909830046,384.53041595175023L373.6737453450362,384.5013256204846L371.87291169385276,379.9896688453051L373.12433846840395,378.941035706079ZM376.0850310813662,373.6642706628793L376.8480961877999,373.8684849106062L376.695483166513,375.1226939076926L375.26092076641794,376.9886330283695L375.3219659749325,374.6852278641769ZM377.09227702185876,365.1644988263285L378.0384777538361,367.59090839574776L377.7637743155201,371.4463483585178L376.9091413963147,373.3725161865229L375.1388303493886,373.7809659177613L374.4062878472125,373.25580785310046L374.7115138897859,366.39253070202005ZM374.34524263869775,364.11155494808787L374.65046868127115,365.74932981139693L373.9179261790948,365.63237146663073ZM378.86258806878436,356.02817981009264L379.2899045283873,358.92987731774787L377.916387336807,358.9884715507644L379.07624629858606,360.13085556331424L378.92363327729936,362.85345148211377L375.77980503879303,365.36920084194657L376.72600577077037,357.4060679302186Z" pointer-events="all" style="cursor: pointer;">
             <title>0.14% from Andaman And Nicobar Islands</title>
           </path>

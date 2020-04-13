@@ -1,6 +1,8 @@
 import { ApiClienteService } from './../../../shared/services/api-cliente-service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import * as d3 from 'd3';
+import { svg } from 'd3';
 
 @Component({
   selector: 'inicio',
@@ -12,6 +14,11 @@ export class InicioComponent implements OnInit {
   form: FormGroup;
   dadosDoDiaAnterior: any[] = [];
   dadosAtuais: any[] = [];
+  ordenacaoAscendente = true;
+  detalharDadosPorEstado = false;
+  indexAnt = undefined;
+
+  chart: any;
 
   constructor(private apiService:ApiClienteService, private fb:FormBuilder) {
     this.form = this.fb.group({
@@ -21,13 +28,23 @@ export class InicioComponent implements OnInit {
       recuperados: [''],
       mortos: [''],
       mortosDia: [''],
-      estados: ['']
+      estados: [''],
+      municipios: ['']
     })
+    /*this.chart = d3.map()
+    let width = 900;
+    let heigth = 500;
+
+    const projection = d3.geoAlbersUsa();
+    const svg = d3.select('.MapExplorer').append('svg').attr("width", width).attr('heigth', heigth);
+    const path = d3.geoPath().projection(projection)
+    const g = svg.append("g");
+    d3.json("teste", func)*/
   }
 
   ngOnInit(): void {
-    //this.carregarTotaisBrasil();
     this.carregarDadosTotaisEstado();
+   // this.carregarTotaisBrasil();
   }
 
   carregarTotaisBrasil() {
@@ -39,7 +56,6 @@ export class InicioComponent implements OnInit {
   }
 
   atualizarForm(resultApiLmao: any) {
-    this.form.reset();
     resultApiLmao.cases ? this.form.get('confirmados').setValue(resultApiLmao.cases) : '';
     resultApiLmao.active ? this.form.get('ativos').setValue(resultApiLmao.active) : '';
     resultApiLmao.recovered ? this.form.get('recuperados').setValue(resultApiLmao.recovered): '';
@@ -48,21 +64,45 @@ export class InicioComponent implements OnInit {
     resultApiLmao.todayCases ? this.form.get('confirmadosDia').setValue(resultApiLmao.todayCases) : '';
   }
 
-  gerarFormDadosFinais() {
-    this.dadosAtuais.forEach(dadoAtual => {
-      const objEstado = this.dadosDoDiaAnterior.find(item => item.state === dadoAtual.state && item.date !== dadoAtual.date)
-      dadoAtual.diaAnterior = objEstado;
-      console.log(dadoAtual);
+  carregarDadosDiaAnteriorPorEstado() {
+    this.form.get('estados').reset();
+    this.dadosAtuais.forEach(dadoPorEstadoAtual => {
+      if (dadoPorEstadoAtual.date) {
+        this.apiService.carregarDadosPorEstadoDiaAnterior(this.gerarDataAnterior(dadoPorEstadoAtual.date), dadoPorEstadoAtual.state).subscribe(
+          res => {dadoPorEstadoAtual.diaAnterior = res.results[0];}
+        );
+      }
     });
     this.form.get('estados').setValue(this.dadosAtuais);
   }
 
-  carregarDadosDiaAnteriorPorEstado() {
-    const dataAnterior = this.gerarDataAnterior();
-    this.apiService.carregarDadosPorEstadoDiaAnterior(dataAnterior).subscribe(
+  ordernarPorEstado() {
+    this.ordenacaoAscendente = !this.ordenacaoAscendente;
+  }
+
+  resetDropDown() {
+    this.dadosAtuais.forEach(estado => {
+      estado.index ? estado.index = undefined : estado.index = undefined;
+    })
+  }
+
+  detalharEstado(estado:any, index: number) {
+    if (estado.index !== undefined) {
+      estado.index = undefined;
+    } else {
+      this.resetDropDown();
+      estado.index = index;
+      this.carregarMunicipiosDoEstado(estado.state);
+    }
+  }
+
+  carregarMunicipiosDoEstado(estadoSigla: any) {
+    this.apiService.carregarDadosPorMunicipioDoEstado(estadoSigla).subscribe(
       res => {
-        this.dadosDoDiaAnterior = res.results;
-        this.gerarFormDadosFinais();
+        this.form.get('municipios').reset();
+        this.form.get('municipios').setValue(res.results);
+      }, error => {
+        console.log(error);
       }
     )
   }
@@ -72,23 +112,18 @@ export class InicioComponent implements OnInit {
       res => {
         this.form.get('estados').reset();
         if (res) {
-          this.dadosAtuais =  res.results;
+          this.dadosAtuais = res.results;
+          console.log(this.dadosAtuais);
           this.carregarDadosDiaAnteriorPorEstado();
         }
       }
     )
   }
 
-  gerarDataAnterior(): any {
-    const dataAtual = new Date();
-    const diaAnt = dataAtual.getDate() - 1;
-    const ano = dataAtual.getFullYear();
-
-    if ((dataAtual.getMonth()) + 1 < 10) {
-      return ano + '-0'+ (dataAtual.getMonth()+1) + '-' + diaAnt;
-    } else {
-      return ano + (dataAtual.getMonth()+1) + '-' + diaAnt;
-    }
+  gerarDataAnterior(data: string): string {
+    const nDate = new Date(data);
+    nDate.setDate(nDate.getDate() - 1);
+    return nDate.toISOString().split('T')[0];
   }
 
 }
