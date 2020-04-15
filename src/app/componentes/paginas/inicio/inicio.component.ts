@@ -16,9 +16,8 @@ export class InicioComponent implements OnInit {
   dadosAtuais: any[] = [];
   ordenacaoAscendente = true;
   detalharDadosPorEstado = false;
+  totalConfirmado: number;
   indexAnt = undefined;
-
-  chart: any;
 
   constructor(private apiService:ApiClienteService, private fb:FormBuilder) {
     this.form = this.fb.group({
@@ -31,20 +30,11 @@ export class InicioComponent implements OnInit {
       estados: [''],
       municipios: ['']
     })
-    /*this.chart = d3.map()
-    let width = 900;
-    let heigth = 500;
-
-    const projection = d3.geoAlbersUsa();
-    const svg = d3.select('.MapExplorer').append('svg').attr("width", width).attr('heigth', heigth);
-    const path = d3.geoPath().projection(projection)
-    const g = svg.append("g");
-    d3.json("teste", func)*/
   }
 
   ngOnInit(): void {
     this.carregarDadosTotaisEstado();
-   // this.carregarTotaisBrasil();
+    this.carregarTotaisBrasil();
   }
 
   carregarTotaisBrasil() {

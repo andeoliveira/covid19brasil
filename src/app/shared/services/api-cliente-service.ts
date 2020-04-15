@@ -9,10 +9,15 @@ export class ApiClienteService {
 
   urlBrasilIo = 'https://brasil.io/api/dataset/covid19/';
   urlCoronaLmao = 'https://corona.lmao.ninja/v2/countries/brasil?yesterday=false&strict=false';
+  urlEstadoJson = 'https://gist.githubusercontent.com/marialuisacp/4a663a1980c56ecb847e94e232a55f2a/raw/efcc7638dfbe6ea23caa89a6c17d0ad49f128752/br-states-info.json';
   constructor(private http:HttpClient) {}
 
   carregarTotalPais(): Observable<any> {
     return this.http.get(this.urlCoronaLmao);
+  }
+
+  carregarEstadoJsonMap(): Observable<any> {
+    return this.http.get(this.urlEstadoJson);
   }
 
   carregarDadosPorEstadoInicio(): Observable<any> {

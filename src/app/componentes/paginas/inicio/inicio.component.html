@@ -1,4 +1,7 @@
 <form [formGroup]="form" class="home">
+  <map *ngIf="form.get('confirmados').value && form.get('estados').value"
+    [confirmados]="form.get('confirmados').value" [casosPorEstado]="form.get('estados').value">
+  </map>
   <div class="home-left">
     <div class="header fadeInUp" style="animation-delay: 1s;">
       <div class="header-mid">
