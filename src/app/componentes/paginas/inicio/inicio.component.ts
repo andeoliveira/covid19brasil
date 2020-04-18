@@ -46,6 +46,7 @@ export class InicioComponent implements OnInit {
   }
 
   atualizarForm(resultApiLmao: any) {
+    console.log(resultApiLmao)
     resultApiLmao.cases ? this.form.get('confirmados').setValue(resultApiLmao.cases) : '';
     resultApiLmao.active ? this.form.get('ativos').setValue(resultApiLmao.active) : '';
     resultApiLmao.recovered ? this.form.get('recuperados').setValue(resultApiLmao.recovered): '';
