@@ -9,12 +9,15 @@ export class ApiClienteService {
 
   urlBrasilIo = 'https://brasil.io/api/dataset/covid19/';
   urlCoronaLmao = 'https://corona.lmao.ninja/v2/countries/brasil?yesterday=false&strict=false';
-  constructor(private http:HttpClient) {
-
-  }
+  urlEstadoJson = 'https://gist.githubusercontent.com/marialuisacp/4a663a1980c56ecb847e94e232a55f2a/raw/efcc7638dfbe6ea23caa89a6c17d0ad49f128752/br-states-info.json';
+  constructor(private http:HttpClient) {}
 
   carregarTotalPais(): Observable<any> {
     return this.http.get(this.urlCoronaLmao);
+  }
+
+  carregarEstadoJsonMap(): Observable<any> {
+    return this.http.get(this.urlEstadoJson);
   }
 
   carregarDadosPorEstadoInicio(): Observable<any> {
@@ -22,18 +25,22 @@ export class ApiClienteService {
     return this.http.get<any>(this.urlBrasilIo + detalhe);
   }
 
-  carregarDadosPorEstadoDiaAnterior(data: any): Observable<any> {
-    const detalhe = `caso/data?is_last=True&place_type=state&date=${data}`;
-    const detalheAnt = `caso/data?search=&date=${data}&place_type=state`;
+  carregarDadosPorEstadoDiaAnterior(data: any, estadoSigla: any): Observable<any> {
+    const detalheAnt = `caso/data?search=&date=${data}&state=${estadoSigla}&place_type=state`;
     return this.http.get<any>(this.urlBrasilIo + detalheAnt);
+  }
+
+  carregarDadosPorMunicipioDoEstado(estadoSigla: any): Observable<any> {
+    const detalhe = `caso/data?is_last=True&state=${estadoSigla}`;
+    return this.http.get<any>(this.urlBrasilIo + detalhe);
   }
 
   carregarMensagensBanner(): Observable<any> {
     const mensagens = [
-      { id: 11, mensagem: 'Your essential needs will be taken care of by the government in a timely manner. Please do not hoard.  ' },
-      { id: 12, mensagem: 'Panic mode : OFF! ❌ ESSENTIALS ARE ON! ✔️  ' },
-      { id: 13, mensagem: 'Plan and calculate your essential needs for the next three weeks.  ' },
-      { id: 14, mensagem: 'Avoid going out during the lockdown. Help break the chain of spread.  ' },
+      { id: 1, mensagem: 'Your essential needs will be taken care of by the government in a timely manner. Please do not hoard.  ' },
+      { id: 2, mensagem: 'Modo pânico : OFF! ❌ ESSENTIALS ARE ON! ✔️  ' },
+      { id: 3, mensagem: 'Planejar e calcular suas necessidades essenciais para os próximos dias.  ' },
+      { id: 4, mensagem: 'Evite sair de casa, evite aglomerações. Ajude a quebrar a cadeia de propagação.  ' },
     ]
     return of (mensagens)
   }
