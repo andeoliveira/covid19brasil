@@ -25,10 +25,15 @@ export class InicioComponent implements OnInit {
       confirmadosDia: [''],
       ativos: [''],
       recuperados: [''],
-      mortos: [''],
-      mortosDia: [''],
+      obitos: [''],
+      obitosDia: [''],
       estados: [''],
-      municipios: ['']
+      municipios: [''],
+      confirmadosEstado: [''],
+      recuperadosEstado: [''],
+      obitosEstado: [''],
+      ativosEstados: [''],
+      estadoSigla: ['']
     })
   }
 
@@ -39,20 +44,19 @@ export class InicioComponent implements OnInit {
 
   carregarTotaisBrasil() {
     this.apiService.carregarTotalPais().subscribe(
-      result => {
-        if (result) this.atualizarForm(result);
-      }
+      result => {if (result) this.atualizarForm(result)}
     )
   }
 
   atualizarForm(resultApiLmao: any) {
-    console.log(resultApiLmao)
     resultApiLmao.cases ? this.form.get('confirmados').setValue(resultApiLmao.cases) : '';
     resultApiLmao.active ? this.form.get('ativos').setValue(resultApiLmao.active) : '';
     resultApiLmao.recovered ? this.form.get('recuperados').setValue(resultApiLmao.recovered): '';
-    resultApiLmao.deaths ? this.form.get('mortos').setValue(resultApiLmao.deaths): '';
-    resultApiLmao.todayDeaths ? this.form.get('mortosDia').setValue(resultApiLmao.todayDeaths) : '';
+    resultApiLmao.deaths ? this.form.get('obitos').setValue(resultApiLmao.deaths): '';
+    resultApiLmao.todayDeaths ? this.form.get('obitosDia').setValue(resultApiLmao.todayDeaths) : '';
     resultApiLmao.todayCases ? this.form.get('confirmadosDia').setValue(resultApiLmao.todayCases) : '';
+    this.form.get('obitosEstado').setValue(resultApiLmao.deaths);
+    this.form.get('confirmadosEstado').setValue(resultApiLmao.cases);
   }
 
   carregarDadosDiaAnteriorPorEstado() {
@@ -64,6 +68,7 @@ export class InicioComponent implements OnInit {
         );
       }
     });
+    this.dadosAtuais.sort((a, b) => (a.state < b.state ? -1 : a.state > b.state ? 1 : 0));
     this.form.get('estados').setValue(this.dadosAtuais);
   }
 
@@ -104,7 +109,6 @@ export class InicioComponent implements OnInit {
         this.form.get('estados').reset();
         if (res) {
           this.dadosAtuais = res.results;
-          console.log(this.dadosAtuais);
           this.carregarDadosDiaAnteriorPorEstado();
         }
       }
@@ -115,6 +119,13 @@ export class InicioComponent implements OnInit {
     const nDate = new Date(data);
     nDate.setDate(nDate.getDate() - 1);
     return nDate.toISOString().split('T')[0];
+  }
+
+  atualizarInfoEstado($eventEmitter) {
+    const estado = this.dadosAtuais.find(e => e.state === $eventEmitter.id)
+    this.form.get('confirmadosEstado').setValue(estado.confirmed);
+    this.form.get('obitosEstado').setValue(estado.deaths);
+    this.form.get('estadoSigla').setValue($eventEmitter.properties.nome);
   }
 
 }
