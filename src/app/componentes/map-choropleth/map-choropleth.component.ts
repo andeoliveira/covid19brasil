@@ -101,7 +101,7 @@ export class MapChoroplethComponent implements OnInit {
         .attr("x", (d) => path.centroid(d)[0])
         .attr("y", (d) => path.centroid(d)[1])
         .attr("text-anchor","middle")
-        .attr('font-size', '0.6em')
+        .attr('font-size', '0.4em')
         .attr('fill', '#6c757d')
         .attr('font-weight', 'bold')
         .attr('font-family', 'Archia')

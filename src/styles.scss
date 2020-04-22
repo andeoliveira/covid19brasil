@@ -1389,7 +1389,7 @@
   .TimeSeries-Parent {
     display: flex;
     flex-direction: column;
-    width: 30rem;
+    width: 32rem;
     align-self: center;
   }
 
@@ -1536,11 +1536,12 @@
       padding: 0.25rem;
       position: absolute;
       top: 0.5rem;
-      left: 0.5rem;
-      width: 5rem;
+      left: 2.5rem;
+      width: 15rem;
       border-radius: 3px;
       display: flex;
       flex-direction: column;
+      text-align: center;
 
       h2,
       h5,
@@ -1608,12 +1609,12 @@
     .svg-parent {
       position: relative;
       display: flex;
-      width: 30rem;
+      width: 32rem;
       align-self: center;
       background: $cherry-light;
-      border-radius: 5px;
+      border-radius: 4px;
       margin-bottom: 1rem;
-      height: 10rem;
+      height: 18rem;
 
       svg {
         width: 100%;

@@ -8,8 +8,7 @@
         </div>
         <div class="last-update">
           <h6>Última atualização</h6>
-          <h6 style="color: rgb(40, 167, 69); font-weight: 600;">20 minutes Ago</h6>
-          <h6 style="color: rgb(40, 167, 69); font-weight: 600;">11 Apr, 19:05 IST</h6>
+          <h6 style="color: rgb(40, 167, 69); font-weight: 600;">{{this.form.get('dataUltAtualizacao')?.value}}</h6>
         </div>
       </div>
     </div>
@@ -105,12 +104,14 @@
                 </div>
               </td>
               <td>
-                <span class="deltas" style="color: rgb(255, 7, 58);" *ngIf="estado.diaAnterior && estado.diaAnterior.confirmed">
+                <span class="deltas" style="color: rgb(255, 7, 58);" *ngIf="estado.diaAnterior &&
+                estado.diaAnterior.confirmed && estado.confirmed !== estado.diaAnterior.confirmed ">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="12" y1="19" x2="12" y2="5"></line>
                     <polyline points="5 12 12 5 19 12"></polyline>
                   </svg>
-                  {{estado.diaAnterior ? (estado.confirmed - estado.diaAnterior.confirmed) : ''}}
+                  {{estado.diaAnterior && estado.confirmed !== estado.diaAnterior.confirmed ?
+                    (estado.confirmed - estado.diaAnterior.confirmed) : ''}}
                 </span>
                 <span class="table__count-text">{{estado.confirmed}}</span>
               </td>
@@ -178,28 +179,28 @@
           <h6></h6>
         </div>
       </div>
-      <!--div class="stats is-blue fadeInUp" style="animation-delay: 2.1s;">
-        <h5>Ativos</h5>
-        <div class="stats-bottom">
-          <h1>1368</h1>
-          <h6></h6>
-        </div>
-      </div -->
-      <!-- div class="stats is-green fadeInUp" style="animation-delay: 2.2s;"><h5>Recuperados</h5>
-        <div class="stats-bottom"><h1>188</h1><h6></h6></div>
-      </div -->
       <div class="stats is-gray fadeInUp" style="animation-delay: 2.3s;"><h5>Óbitos</h5>
         <div class="stats-bottom"><h1>{{form.get('obitosEstado')?.value}}</h1><h6></h6></div>
       </div>
     </div>
     <div class="meta fadeInUp" style="animation-delay: 2.4s;"><h2>{{form.get('estadoSigla')?.value}}</h2>
-      <div class="last-update state-last-update"><h6>Última atualização</h6><h3 title="11 Apr, 15:50 IST">about 4 hours Ago</h3></div>
+      <div class="last-update state-last-update"><h6>Última atualização</h6><h3 title="{{form.get('dataUltAtualizacao')?.value}}">{{form.get('dataUltAtualizacao')?.value}}</h3></div>
     </div>
     <div class="svg-parent fadeInUp" style="animation-delay: 2.5s;">
       <map *ngIf="form.get('confirmados').value && form.get('estados').value"
         [confirmados]="form.get('confirmados').value" [casosPorEstado]="form.get('estados').value"
         (estadoSelecionado)="atualizarInfoEstado($event)">
       </map>
+    </div>
+    <div class="TimeSeries-Parent fadeInUp" style="animation-delay: 2.1s;">
+      <div class="timeseries">
+        <div class="svg-parent">
+          <div class="stats">
+            <h5 class="title">Qtd. casos confirmados por dia</h5>
+          </div>
+            <timeseries *ngIf="this.dadosHistoricos && this.dadosHistoricos.length > 0" [dadosBrasil]="this.dadosHistoricos"></timeseries>
+        </div>
+      </div>
     </div>
     </div>
   </div>

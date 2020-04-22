@@ -11,6 +11,7 @@ import { DemograficoComponent } from './componentes/paginas/demografico/demograf
 import { BannerComponent } from './componentes/banner/banner.component';
 import { NavbarComponent } from './componentes/navbar/navbar.component';
 import { MapChoroplethComponent } from './componentes/map-choropleth/map-choropleth.component';
+import { TimeseriesComponent } from './componentes/timeseries/timeseries.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { MapChoroplethComponent } from './componentes/map-choropleth/map-choropl
     BannerComponent,
     InicioComponent,
     DemograficoComponent,
-    MapChoroplethComponent
+    MapChoroplethComponent,
+    TimeseriesComponent
   ],
   imports: [
     BrowserModule,
