@@ -1,3 +1,5 @@
+import { LinksComponent } from './componentes/links/links.component';
+import { SobreComponent } from './componentes/sobre/sobre.component';
 import { DemograficoComponent } from './componentes/paginas/demografico/demografico.component';
 import { InicioComponent } from './componentes/paginas/inicio/inicio.component';
 import { NgModule } from '@angular/core';
@@ -16,6 +18,14 @@ const routes: Routes = [
   {
     path: 'demografico',
     component: DemograficoComponent
+  },
+  {
+    path: 'sobre',
+    component: SobreComponent
+  },
+  {
+    path: 'links-de-ajuda',
+    component: LinksComponent
   }
 ];
 

@@ -11,9 +11,10 @@ export class TimeseriesComponent implements OnInit {
   svg: any;
   ts: any;
   width: number = 500;
-  height = 280;
-  margin = 20;
+  height = 300;
+  margin = 30;
   dadosFinais: any[] = [];
+  dadosHistoricoBrasil: any[] = [];
   @Input() dadosBrasil: any[];
   @ViewChild("series_brasil", { static: true }) protected seriesContainer: ElementRef;
 
@@ -25,66 +26,76 @@ export class TimeseriesComponent implements OnInit {
 
   async configurarTimeSeries() {
 
-    this.dadosBrasil = this.dadosBrasil.filter(dado => dado.Cases > 60)
+    this.dadosHistoricoBrasil = this.dadosBrasil.filter(dado => dado.Cases > 1000)
     this.svg = d3.select(this.seriesContainer.nativeElement)
       .attr("width", this.width)
       .attr("height", this.height)
       .append("g")
       .attr("transform","translate(50,10)")
 
-    // Dados na horizontal -> Data dos cados
-    const vlrExtentDate = d3.extent(this.dadosBrasil, (dado:any)=> new Date(dado.Date));
-    const x = d3.scaleTime().domain(vlrExtentDate).range([ 0, this.width - 70]);
+    // Dados na horizontal -> Datas dos casos (eixo x)
+    const vlrExtentDate = d3.extent(this.dadosHistoricoBrasil, (dado:any) => {
+      return this.gerarData(dado.Date);
+    });
+
+    const x = d3.scaleTime().domain(vlrExtentDate).range([ 0, this.width - this.margin - 30]);
 
     this.svg.append("g")
-      .attr("transform", `translate(-5, ${this.height - this.margin - 10})`)
-      .call(d3.axisBottom(x).ticks(8).tickSizeOuter(0));
+      .attr("transform", `translate(-4, ${this.height - this.margin - 20})`)
+      .call(d3.axisBottom(x).ticks(7).tickFormat(d3.timeFormat('%d/%m')).tickSizeOuter(0));
 
-    // Dados na vertical -> Quantidade de casos
-    const vlrExtentCases = d3.extent(this.dadosBrasil, (d:any) => +d.Cases);
-    const y = d3.scaleLinear()
-    .domain(vlrExtentCases)
-    .range([ this.height - 40, 0 ]);
+    // Dados na vertical -> Quantidade de casos (eixo y)
+    const vlrExtentCases = d3.extent(this.dadosHistoricoBrasil, (d:any) => +d.Cases);
+    const y = d3.scaleLinear().domain(vlrExtentCases).range([this.height - this.margin - 50, 0]);
+
     this.svg.append("g")
-    .attr("transform", `translate(-5, ${this.margin - 10})`)
-    .call(d3.axisLeft(y).tickSizeOuter(0));
+      .attr("transform", `translate(-4, ${this.margin - 2})`)
+      .call(d3.axisLeft(y).ticks(10).tickSizeOuter(1).tickFormat(d3.format('.2s')));
 
-     //Área dos dados
-     this.svg.append("path")
-     .datum(this.dadosBrasil)
-     .attr("fill", "#69b3a2")
-     .attr("fill-opacity", .1)
-     .attr("stroke", "none")
-     .attr("d", d3.area()
-                .x((d:any) => {
-                  return x(new Date(d.Date))
-                })
-                .y0( this.height - this.margin - 10)
-                .y1((d: any) => y(d.Cases))
+     //Área dos dados - traçado da linha
+    this.svg.append("path")
+      .datum(this.dadosHistoricoBrasil)
+      .attr("fill", "#69b3a2")
+      .attr("fill-opacity", .1)
+      .attr("stroke", "none")
+      .attr("transform", `translate(-4, ${this.margin})`)
+      // desenha a área
+      .attr("d", d3.area()
+              .x((d:any) => {return x(this.gerarData(d.Date))})
+              .y0(this.height - this.margin - 50 )
+              .y1((d: any) => y(d.Cases))
       )
-       // Add the line
 
-       this.svg.append("path")
-    .datum(this.dadosBrasil)
-    .attr("fill", "none")
-    .attr("stroke", "#ff073a20")
-    .attr("stroke-width", 4)
-    .attr("d", d3.line()
-      .x((d: any) => x(new Date(d.Date)))
-      .y((d: any) => y(d.Cases))
-    )
+    //traçado da linha
+    this.svg.append("path")
+      .datum(this.dadosHistoricoBrasil)
+      .attr("fill", "none")
+      .attr("stroke", "#ff073a20")
+      .attr("stroke-width", 3)
+      .attr("transform", `translate(-4, ${this.margin})`)
+      .attr("d", d3.line()
+        .x((d: any) => {return x(this.gerarData(d.Date))})
+        .y((d: any) => y(d.Cases))
+      )
 
-   // Add the line
+   //"circulos"
     this.svg.selectAll("myCircles")
-      .data(this.dadosBrasil)
+      .data(this.dadosHistoricoBrasil)
       .enter()
       .append("circle")
+      .attr("transform", `translate(-4, ${this.margin})`)
       .attr("fill", "red")
       .attr("stroke", "none")
-      .attr("cx", function(d:any) { return x(new Date (d.Date)) })
-      .attr("cy", function(d:any) { return y(d.Cases) })
+      .attr("cx", (d:any) => {return x(this.gerarData(d.Date))})
+      .attr("cy", (d:any) => {return y(d.Cases) })
       .attr("r", 3)
 
+  }
 
+  gerarData(date: any): Date {
+    let nyear = new Date(date).getFullYear();
+    let ndia = new Date(date).getDate() + 1;
+    let nmes = new Date(date).getMonth();
+    return new Date(nyear, nmes, ndia)
   }
 }
