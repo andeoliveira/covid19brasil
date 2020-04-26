@@ -1,1 +1,24 @@
-<p>links works!</p>
+<div class="containerGeral">
+
+  <div class="header fadeInUp" style="animation-delay: 0.7s;">
+
+    <div>
+      <h1>Links de ajuda</h1>
+      <h3>Covid-19 Brasil </h3>
+    </div>
+
+    <h6 class="disclaimer">
+      Os links são gerados pela API de dados do Brasil IO.
+    </h6>
+  </div>
+
+  <div class="reminder fadeInUp" *ngIf="links$ | async as linkGeral" style="animation-delay: 1s">
+    <p>
+      A baixo a lista de todos os links com os boletins por estado.
+    </p>
+    <p *ngFor="let link of linkGeral.links">
+      <a class="button twitter" style="width: 100%; justify-content: center;" target="_blank" href="{{link.url}}">{{link.title}}</a>
+    </p>
+  </div>
+
+</div>

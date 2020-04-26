@@ -623,6 +623,10 @@
         margin-right: 2rem;
         color: $gray-mid;
 
+        .focused {
+          color: $gray;
+        }
+
         span {
           display: inline-block;
           transition: color 0.2s ease-in-out;
@@ -1861,7 +1865,7 @@
     }
   }
 
-  .PatientsDB {
+  .containerGeral {
     display: flex;
     flex-direction: column;
     align-self: center;

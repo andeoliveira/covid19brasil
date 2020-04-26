@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient }    from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
+import { map, filter, take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +13,10 @@ export class ApiClienteService {
   urlCoronaLmao = 'https://corona.lmao.ninja/v2/';
   urlEstadoJson = 'https://gist.githubusercontent.com/marialuisacp/4a663a1980c56ecb847e94e232a55f2a/raw/efcc7638dfbe6ea23caa89a6c17d0ad49f128752/br-states-info.json';
   constructor(private http:HttpClient) {}
+
+  carregarLinksBoletins() {
+    return this.http.get(this.urlBrasilIo).pipe(take(1));
+  }
 
   carregarTotalPais(): Observable<any> {
     return this.http.get(this.urlCovid19 + 'live/country/brazil/status/confirmed');

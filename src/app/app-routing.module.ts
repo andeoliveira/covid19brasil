@@ -24,7 +24,7 @@ const routes: Routes = [
     component: SobreComponent
   },
   {
-    path: 'links-de-ajuda',
+    path: 'links',
     component: LinksComponent
   }
 ];

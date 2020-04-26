@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'navbar',
@@ -8,9 +9,13 @@ import { Component, OnInit, Input } from '@angular/core';
 export class NavbarComponent implements OnInit {
 
   @Input() paginas: any;
-  constructor() { }
+  constructor(public router:ActivatedRoute) { }
 
   ngOnInit(): void {
   }
+
+  //isActive(rota: string): boolean {
+    //return this.router.snapshot.paramMap
+  //}
 
 }

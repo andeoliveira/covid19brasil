@@ -1,14 +1,18 @@
 <div class="navbar" style="animation-delay: 0.5s; transition: all 0.3s ease-in-out 0s;">
   <a href="/">
-    <img class="fadeInUp logo" alt="COVID-19 Brasil - dados" src="/icon.png" style="animation-delay: 0s; transition: all 0.3s ease-in-out 0s;">
+    <img class="fadeInUp logo" title="Dados Covid 19 Brasil" alt="COVID-19 Brasil - dados" src="assets/icones/logo.png" style="animation-delay: 0s; transition: all 0.3s ease-in-out 0s;">
   </a>
   <div class="navbar-left">
     <div class="navbar-menu hidden">
-      <a [routerLink]="['/inicio']"><span class="fadeInUp focused" style="animation-delay: 0.2s;">Início</span></a>
-      <a [routerLink]="['/demografico']"><span class="fadeInUp " style="animation-delay: 0.3s;">Demográfico</span></a>
-      <a [routerLink]="['/links']"><span class="fadeInUp " style="animation-delay: 0.4s;">Links de ajuda</span></a>
-      <a [routerLink]="['/sobre']"><span class="fadeInUp " style="animation-delay: 0.5s;">Sobre</span></a>
-      <!--a href="/essentials"><span class="fadeInUp " style="animation-delay: 0.7s;">Essentials</span></a -->
+      <a [routerLink]="['/inicio']">
+        <span routerLinkActive="fadeInUp focused" class="fadeInUp" style="animation-delay: 0.2s;">Início</span>
+      </a>
+      <a [routerLink]="['/links']">
+        <span routerLinkActive="fadeInUp focused" class="fadeInUp" style="animation-delay: 0.4s;">Links de ajuda</span>
+      </a>
+      <a [routerLink]="['/sobre']">
+        <span routerLinkActive="fadeInUp focused" class="fadeInUp" style="animation-delay: 0.5s;">Sobre</span>
+      </a>
     </div>
   </div>
   <div class="navbar-right">
