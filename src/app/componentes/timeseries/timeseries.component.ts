@@ -10,7 +10,7 @@ export class TimeseriesComponent implements OnInit {
 
   svg: any;
   ts: any;
-  width: number = 500;
+  width: number = 420;
   height = 300;
   margin = 30;
   dadosFinais: any[] = [];
@@ -31,7 +31,7 @@ export class TimeseriesComponent implements OnInit {
       .attr("width", this.width)
       .attr("height", this.height)
       .append("g")
-      .attr("transform","translate(50,10)")
+      .attr("transform","translate(70,15)")
 
     // Dados na horizontal -> Datas dos casos (eixo x)
     const vlrExtentDate = d3.extent(this.dadosHistoricoBrasil, (dado:any) => {
