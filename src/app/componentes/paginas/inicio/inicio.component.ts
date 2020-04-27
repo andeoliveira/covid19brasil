@@ -60,9 +60,9 @@ export class InicioComponent implements OnInit {
   atualizarForm(resultApiList: any[]) {
     const resultApi = resultApiList[resultApiList.length - 1];
     const resultApiAnt = resultApiList[resultApiList.length - 2];
-    console.log(resultApiAnt)
+
     if (resultApi) {
-      this.resetForm();
+      this.resetarForm();
       resultApi.Confirmed ? this.form.get('confirmados').setValue(resultApi.Confirmed) : 'Sem info.';
       resultApi.Active ? this.form.get('ativos').setValue(resultApi.Active) : 'Sem info.';
       resultApi.Recovered ? this.form.get('recuperados').setValue(resultApi.Recovered): 'Sem info.';
@@ -74,9 +74,10 @@ export class InicioComponent implements OnInit {
       this.form.get('confirmadosEstado').setValue(resultApi.Confirmed);
       this.carregarHistorico();
     }
+
   }
 
-  resetForm() {
+  resetarForm() {
     this.form.get('dataUltAtualizacao').reset();
     this.form.get('ativos').reset();
     this.form.get('recuperados').reset();
@@ -86,7 +87,8 @@ export class InicioComponent implements OnInit {
     this.form.get('estados').reset();
     this.dadosAtuais.forEach(dadoPorEstadoAtual => {
       if (dadoPorEstadoAtual.date) {
-        this.apiService.carregarDadosPorEstadoDiaAnterior(this.gerarDataAnterior(dadoPorEstadoAtual.date), dadoPorEstadoAtual.state).subscribe(
+        this.apiService.carregarDadosPorEstadoDiaAnterior(this.gerarDataAnterior(dadoPorEstadoAtual.date), dadoPorEstadoAtual.state)
+        .pipe(take(1)).subscribe(
           res => {dadoPorEstadoAtual.diaAnterior = res.results[0];}
         );
       }
@@ -99,7 +101,7 @@ export class InicioComponent implements OnInit {
     this.ordenacaoAscendente = !this.ordenacaoAscendente;
   }
 
-  resetDropDown() {
+  resetarDropDown() {
     this.dadosAtuais.forEach(estado => {
       estado.index ? estado.index = undefined : estado.index = undefined;
     })
@@ -109,7 +111,7 @@ export class InicioComponent implements OnInit {
     if (estado.index !== undefined) {
       estado.index = undefined;
     } else {
-      this.resetDropDown();
+      this.resetarDropDown();
       estado.index = index;
       this.carregarMunicipiosDoEstado(estado.state);
     }
