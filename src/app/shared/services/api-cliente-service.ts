@@ -46,10 +46,11 @@ export class ApiClienteService {
   }
   carregarMensagensBanner(): Observable<any> {
     const mensagens = [
-      { id: 1, mensagem: 'Modo pânico : OFF! ❌ Modo conciente! ON ✔️  ' },
-      { id: 2, mensagem: 'Planejar e calcular suas necessidades essenciais para os próximos dias.  ' },
-      { id: 3, mensagem: 'Evite sair de casa, evite aglomerações. Ajude a quebrar a cadeia de propagação.  ' },
-      { id: 4, mensagem: 'Atenção, antes de compartilhar informações sobre saúde, verifique sua autenticidade.  ' },
+      { id: 1, mensagem: 'Modo pânico : OFF! ❌ Modo conciente! ON ✔️  ', link:'' },
+      { id: 2, mensagem: 'Planejar e calcular suas necessidades essenciais para os próximos dias.  ', link:'' },
+      { id: 3, mensagem: 'Evite sair de casa, evite aglomerações. Ajude a quebrar a cadeia de propagação.  ', link:'' },
+      { id: 4, mensagem: 'Atenção, antes de compartilhar informações sobre saúde, verifique sua autenticidade.  ', link:'' },
+      { id: 5, mensagem: 'Fique informado, faça uma auto-avaliação com o APP oficial da saúde! ', link:'https://play.google.com/store/apps/details?id=br.gov.datasus.guardioes&hl=pt-br'}
     ]
     return of (mensagens)
   }

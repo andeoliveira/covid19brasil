@@ -68,7 +68,7 @@ export class InicioComponent implements OnInit {
       resultApi.Recovered ? this.form.get('recuperados').setValue(resultApi.Recovered): 'Sem info.';
       resultApi.Deaths ? this.form.get('obitos').setValue(resultApi.Deaths): 'Sem info.';
       resultApi.Date ? this.form.get('dataUltAtualizacao').setValue(this.gerarDataPtBr(resultApi.Date)): 'Sem info.'
-      resultApi.todayDeaths ? this.form.get('obitosDia').setValue(resultApi.Confirmed - resultApiAnt.Confirmed) : '';
+      resultApi.Deaths ? this.form.get('obitosDia').setValue(resultApi.Deaths - resultApiAnt.Deaths) : '';
       resultApi.Confirmed ? this.form.get('confirmadosDia').setValue(resultApi.Confirmed - resultApiAnt.Confirmed) : '';
       this.form.get('obitosEstado').setValue(resultApi.Deaths);
       this.form.get('confirmadosEstado').setValue(resultApi.Confirmed);
