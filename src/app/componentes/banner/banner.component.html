@@ -1,5 +1,7 @@
 <div class="banner fadeInUp" style="animation-delay: 0.8s;">
   <form [formGroup]="form">
-    <div class="snippet">{{form.getRawValue()?.mensagem}}</div>
+    <div class="snippet">{{form.getRawValue()?.mensagem}}
+      <a *ngIf="form.get('link').value" target="_blank" title="{{form.getRawValue()?.mensagem}}" href="{{form.getRawValue()?.link}}">clique aqui</a>
+    </div>
   </form>
 </div>

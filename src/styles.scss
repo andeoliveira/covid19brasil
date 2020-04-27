@@ -592,11 +592,10 @@
 
     .snippet {
       align-self: center;
-      width: calc(100% - 10rem);
+      //width: calc(100% - 10rem);
       word-wrap: break-word;
       padding: 1.5rem;
       text-align: center;
-      cursor: pointer;
     }
   }
 
@@ -622,6 +621,10 @@
         text-decoration: none;
         margin-right: 2rem;
         color: $gray-mid;
+
+        .focused {
+          color: $gray;
+        }
 
         span {
           display: inline-block;
@@ -1536,11 +1539,12 @@
       padding: 0.25rem;
       position: absolute;
       top: 0.5rem;
-      left: 0.5rem;
-      width: 5rem;
+      left: 2.5rem;
+      width: 15rem;
       border-radius: 3px;
       display: flex;
       flex-direction: column;
+      text-align: center;
 
       h2,
       h5,
@@ -1611,9 +1615,9 @@
       width: 30rem;
       align-self: center;
       background: $cherry-light;
-      border-radius: 5px;
+      border-radius: 4px;
       margin-bottom: 1rem;
-      height: 10rem;
+      height: 18rem;
 
       svg {
         width: 100%;
@@ -1860,7 +1864,7 @@
     }
   }
 
-  .PatientsDB {
+  .containerGeral {
     display: flex;
     flex-direction: column;
     align-self: center;

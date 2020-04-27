@@ -1,27 +1,28 @@
 # Covid19brasil
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.19.
+<p align="center">
+<img src="https://lh3.googleusercontent.com/c1R9ua5XDaInXNNYEVKs5NzwQ36gYCXi1VJ5kLRxGcDYmyUSJM3dnkzqaPWP_CniaHQbQSr4yQqxmsoEGvGFrWFnBRAVjI4=s2560" width="50%">
 
-## Development server
+## Iniciar e rodar o projeto
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Faça o clone do projeto, extraia em um diretório, acesse o mesmo e execute os comandos
 
-## Code scaffolding
+```
+npm install 
+ng serve
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Tecnologias utilizadas
 
-## Build
+Angular 9 (Angular CLI)
+Typescript
+Scss
+HTML5
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+## Licença
 
-## Running unit tests
+Esse projeto está sobre a licença MIT. vocçe pode reutilizar o código fonte como achar melhor desde que seja fornecidada uma atribuição de volta para o projeto e que não impacte negativamente.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Contribuição
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Para contribuir, antes de mais nada, crie uma nova issue com uma solicitação.

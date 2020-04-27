@@ -1,8 +1,7 @@
 import { ApiClienteService } from './../../../shared/services/api-cliente-service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import * as d3 from 'd3';
-import { svg } from 'd3';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'inicio',
@@ -12,8 +11,8 @@ import { svg } from 'd3';
 export class InicioComponent implements OnInit {
 
   form: FormGroup;
-  dadosDoDiaAnterior: any[] = [];
   dadosAtuais: any[] = [];
+  dadosHistoricos: any[] = [];
   ordenacaoAscendente = true;
   detalharDadosPorEstado = false;
   totalConfirmado: number;
@@ -33,7 +32,8 @@ export class InicioComponent implements OnInit {
       recuperadosEstado: [''],
       obitosEstado: [''],
       ativosEstados: [''],
-      estadoSigla: ['']
+      estadoSigla: [''],
+      dataUltAtualizacao: ['']
     })
   }
 
@@ -42,21 +42,44 @@ export class InicioComponent implements OnInit {
     this.carregarTotaisBrasil();
   }
 
+  carregarHistorico() {
+    this.apiService.carregarHistorico('confirmed').pipe(take(1)).subscribe(
+      res => {
+        this.dadosHistoricos = [];
+        this.dadosHistoricos = res;
+      }
+    )
+  }
+
   carregarTotaisBrasil() {
-    this.apiService.carregarTotalPais().subscribe(
+    this.apiService.carregarTotalPais().pipe(take(1)).subscribe(
       result => {if (result) this.atualizarForm(result)}
     )
   }
 
-  atualizarForm(resultApiLmao: any) {
-    resultApiLmao.cases ? this.form.get('confirmados').setValue(resultApiLmao.cases) : '';
-    resultApiLmao.active ? this.form.get('ativos').setValue(resultApiLmao.active) : '';
-    resultApiLmao.recovered ? this.form.get('recuperados').setValue(resultApiLmao.recovered): '';
-    resultApiLmao.deaths ? this.form.get('obitos').setValue(resultApiLmao.deaths): '';
-    resultApiLmao.todayDeaths ? this.form.get('obitosDia').setValue(resultApiLmao.todayDeaths) : '';
-    resultApiLmao.todayCases ? this.form.get('confirmadosDia').setValue(resultApiLmao.todayCases) : '';
-    this.form.get('obitosEstado').setValue(resultApiLmao.deaths);
-    this.form.get('confirmadosEstado').setValue(resultApiLmao.cases);
+  atualizarForm(resultApiList: any[]) {
+    const resultApi = resultApiList[resultApiList.length - 1];
+    const resultApiAnt = resultApiList[resultApiList.length - 2];
+    console.log(resultApiAnt)
+    if (resultApi) {
+      this.resetForm();
+      resultApi.Confirmed ? this.form.get('confirmados').setValue(resultApi.Confirmed) : 'Sem info.';
+      resultApi.Active ? this.form.get('ativos').setValue(resultApi.Active) : 'Sem info.';
+      resultApi.Recovered ? this.form.get('recuperados').setValue(resultApi.Recovered): 'Sem info.';
+      resultApi.Deaths ? this.form.get('obitos').setValue(resultApi.Deaths): 'Sem info.';
+      resultApi.Date ? this.form.get('dataUltAtualizacao').setValue(this.gerarDataPtBr(resultApi.Date)): 'Sem info.'
+      resultApi.Deaths ? this.form.get('obitosDia').setValue(resultApi.Deaths - resultApiAnt.Deaths) : '';
+      resultApi.Confirmed ? this.form.get('confirmadosDia').setValue(resultApi.Confirmed - resultApiAnt.Confirmed) : '';
+      this.form.get('obitosEstado').setValue(resultApi.Deaths);
+      this.form.get('confirmadosEstado').setValue(resultApi.Confirmed);
+      this.carregarHistorico();
+    }
+  }
+
+  resetForm() {
+    this.form.get('dataUltAtualizacao').reset();
+    this.form.get('ativos').reset();
+    this.form.get('recuperados').reset();
   }
 
   carregarDadosDiaAnteriorPorEstado() {
@@ -93,7 +116,7 @@ export class InicioComponent implements OnInit {
   }
 
   carregarMunicipiosDoEstado(estadoSigla: any) {
-    this.apiService.carregarDadosPorMunicipioDoEstado(estadoSigla).subscribe(
+    this.apiService.carregarDadosPorMunicipioDoEstado(estadoSigla).pipe(take(1)).subscribe(
       res => {
         this.form.get('municipios').reset();
         this.form.get('municipios').setValue(res.results);
@@ -104,7 +127,7 @@ export class InicioComponent implements OnInit {
   }
 
   carregarDadosTotaisEstado() {
-    this.apiService.carregarDadosPorEstadoInicio().subscribe(
+    this.apiService.carregarDadosPorEstadoInicio().pipe(take(1)).subscribe(
       res => {
         this.form.get('estados').reset();
         if (res) {
@@ -113,6 +136,12 @@ export class InicioComponent implements OnInit {
         }
       }
     )
+  }
+
+  gerarDataPtBr(data: string): any {
+    let nData = null;
+    nData = new Date(data).toLocaleDateString('pt-BR');
+    return nData;
   }
 
   gerarDataAnterior(data: string): string {
