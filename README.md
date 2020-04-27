@@ -1,7 +1,7 @@
-# Covid19brasil
+# Covid19 Brasil - Dados
 
 <p align="center">
-<img src="https://lh3.googleusercontent.com/c1R9ua5XDaInXNNYEVKs5NzwQ36gYCXi1VJ5kLRxGcDYmyUSJM3dnkzqaPWP_CniaHQbQSr4yQqxmsoEGvGFrWFnBRAVjI4=s2560" width="50%">
+<img src="https://i.ibb.co/09D5WKZ/covid.png" width="50%">
 
 ## Iniciar e rodar o projeto
 
@@ -14,10 +14,7 @@ ng serve
 
 ## Tecnologias utilizadas
 
-Angular 9 (Angular CLI)
-Typescript
-Scss
-HTML5
+Angular 9 (Angular CLI), Typescript, SCSS, HTML5.
 
 ## Licença
 
