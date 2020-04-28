@@ -10,8 +10,8 @@ export class TimeseriesComponent implements OnInit {
 
   svg: any;
   ts: any;
-  width: number = 420;
-  height = 300;
+  width: number = 360;
+  height: number = 300;
   margin = 30;
   dadosFinais: any[] = [];
   dadosHistoricoBrasil: any[] = [];
@@ -26,19 +26,19 @@ export class TimeseriesComponent implements OnInit {
 
   async configurarTimeSeries() {
 
-    this.dadosHistoricoBrasil = this.dadosBrasil.filter(dado => dado.Cases > 1000)
+    this.dadosHistoricoBrasil = this.dadosBrasil.filter(dado => dado.Cases > 2000)
     this.svg = d3.select(this.seriesContainer.nativeElement)
-      .attr("width", this.width)
+      .attr("width", '100%')
       .attr("height", this.height)
       .append("g")
-      .attr("transform","translate(70,15)")
+      .attr("transform","translate(50,10)")
 
     // Dados na horizontal -> Datas dos casos (eixo x)
     const vlrExtentDate = d3.extent(this.dadosHistoricoBrasil, (dado:any) => {
       return this.gerarData(dado.Date);
     });
 
-    const x = d3.scaleTime().domain(vlrExtentDate).range([ 0, this.width - this.margin - 30]);
+    const x = d3.scaleTime().domain(vlrExtentDate).range([ 0, this.width - this.margin - 10]);
 
     this.svg.append("g")
       .attr("transform", `translate(-4, ${this.height - this.margin - 20})`)

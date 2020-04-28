@@ -3,7 +3,7 @@
     <div class="header fadeInUp" style="animation-delay: 1s;">
       <div class="header-mid">
         <div class="titles">
-          <h1>Brasil COVID-19 Dados</h1>
+          <h1>Brasil COVID 19 Dados</h1>
           <h6 style="font-weight: 600;">Uma iniciativa open-source</h6>
         </div>
         <div class="last-update">
@@ -59,7 +59,8 @@
         </svg>
       </div>
     </div>
-    <h5 class="table-fineprint fadeInUp" style="animation-delay: 1.5s;">Dados gerais por Estado (saude.gov.br) <a href="/sobre">Saiba mais</a></h5>
+    <h5 class="table-fineprint fadeInUp" style="animation-delay: 1.5s;">Dados gerais por Estado (saude.gov.br)
+      <a [routerLink]="['/sobre']">Saiba mais</a></h5>
       <table class="table fadeInUp" style="animation-delay: 1.8s;">
         <thead>
           <tr>
@@ -189,7 +190,7 @@
     <div class="svg-parent fadeInUp" style="animation-delay: 2.5s;">
       <map *ngIf="form.get('confirmados').value && form.get('estados').value"
         [confirmados]="form.get('confirmados').value" [casosPorEstado]="form.get('estados').value"
-        (estadoSelecionado)="atualizarInfoEstado($event)">
+        (estadoSelecionado)="atualizarInfoEstado($event)" style="width: 100%; text-align: center;">
       </map>
     </div>
     <div class="TimeSeries-Parent fadeInUp" style="animation-delay: 2.1s;">
@@ -198,7 +199,7 @@
           <div class="stats">
             <h5 class="title">Qtd. casos confirmados por dia</h5>
           </div>
-            <timeseries *ngIf="this.dadosHistoricos && this.dadosHistoricos.length > 0" [dadosBrasil]="this.dadosHistoricos"></timeseries>
+          <timeseries style="width: 100%;" *ngIf="this.dadosHistoricos && this.dadosHistoricos.length > 0" [dadosBrasil]="this.dadosHistoricos"></timeseries>
         </div>
       </div>
     </div>

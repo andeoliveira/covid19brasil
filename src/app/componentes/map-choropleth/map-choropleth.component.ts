@@ -12,8 +12,8 @@ export class MapChoroplethComponent implements OnInit {
 
   svg: any;
   svgLegend: any;
-  widthMapaBr = 600;
-  heightMapaBr = 480;
+  widthMapaBr = 380;
+  heightMapaBr = 420;
   dados: any;
   legendaDeCores = [];
   @Input() confirmados: number;
@@ -39,8 +39,8 @@ export class MapChoroplethComponent implements OnInit {
       const data = await d3.json("../../../assets/estados-brasil.json" );
       const topology = topojson.feature(data, data.objects['estados']);
       /* cria projeção do mapa centralizado na página */
-      const projection = d3.geoMercator().scale(250).center([-34, -11]).translate([this.widthMapaBr /2, this.heightMapaBr/2 ]);
-      projection.fitSize([this.widthMapaBr - 10, this.heightMapaBr - 10], topology);
+      const projection = d3.geoMercator().scale(5).center([0, 0]).translate([this.widthMapaBr , this.heightMapaBr/2 ]);
+      projection.fitSize([this.widthMapaBr, this.heightMapaBr - 10], topology);
       /* linha do mapa baseado em Geolocation */
       const path = d3.geoPath().projection(projection);
       /* inicio do conteúdo do SVG */
@@ -119,7 +119,7 @@ export class MapChoroplethComponent implements OnInit {
   configurarLegenda() {
 
     this.svgLegend = d3.select(this.legendContainer.nativeElement)
-                      .attr("width", this.widthMapaBr)
+                      .attr("width", this.widthMapaBr + 50)
                       .attr("height", 30);
 
     if (this.legendaDeCores && this.legendaDeCores.length > 0) {
@@ -129,7 +129,7 @@ export class MapChoroplethComponent implements OnInit {
       const vlrCorExtent = d3.extent(this.legendaDeCores, cor => cor.casosPorEstado);
       const ticks = this.gerarTicks(vlrCorExtent[0], vlrCorExtent[1]);
       const scaleLegend = d3.scaleLinear()
-                            .range([0, this.widthMapaBr - 120])
+                            .range([0, this.widthMapaBr])
                             .domain(vlrCorExtent);
 
       const posicaoX = d3.axisBottom(scaleLegend)
@@ -149,7 +149,7 @@ export class MapChoroplethComponent implements OnInit {
                     .attr("stop-color", (d:any) => d.rgb);
 
       g.append("rect")
-        .attr("width", this.widthMapaBr - 120)
+        .attr("width", this.widthMapaBr)
         .attr("height",16)
         .style("fill", "url(#legendaGradiente)");
 
