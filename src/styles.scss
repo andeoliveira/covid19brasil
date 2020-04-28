@@ -1392,7 +1392,8 @@
   .TimeSeries-Parent {
     display: flex;
     flex-direction: column;
-    width: 30rem;
+    min-width: 380px;
+    max-width: 420px;
     align-self: center;
   }
 
@@ -1612,7 +1613,7 @@
     .svg-parent {
       position: relative;
       display: flex;
-      width: 30rem;
+      width: 26rem;
       align-self: center;
       background: $cherry-light;
       border-radius: 4px;
@@ -2844,7 +2845,7 @@
     .patients-summary
     .filters,
     .updates, .updates-header {
-      width: calc(100% - 2rem);
+      width: calc(100% - 3rem);
     }
 
     .home {
@@ -2943,6 +2944,7 @@
     }
 
     .timeseries {
+      width: 100%;
       .svg-parent {
         width: 100%;
       }

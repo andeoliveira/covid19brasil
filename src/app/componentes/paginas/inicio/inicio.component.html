@@ -190,7 +190,7 @@
     <div class="svg-parent fadeInUp" style="animation-delay: 2.5s;">
       <map *ngIf="form.get('confirmados').value && form.get('estados').value"
         [confirmados]="form.get('confirmados').value" [casosPorEstado]="form.get('estados').value"
-        (estadoSelecionado)="atualizarInfoEstado($event)">
+        (estadoSelecionado)="atualizarInfoEstado($event)" style="width: 100%; text-align: center;">
       </map>
     </div>
     <div class="TimeSeries-Parent fadeInUp" style="animation-delay: 2.1s;">
@@ -199,7 +199,7 @@
           <div class="stats">
             <h5 class="title">Qtd. casos confirmados por dia</h5>
           </div>
-            <timeseries *ngIf="this.dadosHistoricos && this.dadosHistoricos.length > 0" [dadosBrasil]="this.dadosHistoricos"></timeseries>
+          <timeseries style="width: 100%;" *ngIf="this.dadosHistoricos && this.dadosHistoricos.length > 0" [dadosBrasil]="this.dadosHistoricos"></timeseries>
         </div>
       </div>
     </div>

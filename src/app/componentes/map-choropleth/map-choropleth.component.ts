@@ -13,7 +13,7 @@ export class MapChoroplethComponent implements OnInit {
   svg: any;
   svgLegend: any;
   widthMapaBr = 380;
-  heightMapaBr = 480;
+  heightMapaBr = 420;
   dados: any;
   legendaDeCores = [];
   @Input() confirmados: number;
@@ -39,7 +39,7 @@ export class MapChoroplethComponent implements OnInit {
       const data = await d3.json("../../../assets/estados-brasil.json" );
       const topology = topojson.feature(data, data.objects['estados']);
       /* cria projeção do mapa centralizado na página */
-      const projection = d3.geoMercator().scale(25).center([-2, -0]).translate([this.widthMapaBr, this.heightMapaBr/2 ]);
+      const projection = d3.geoMercator().scale(5).center([0, 0]).translate([this.widthMapaBr , this.heightMapaBr/2 ]);
       projection.fitSize([this.widthMapaBr, this.heightMapaBr - 10], topology);
       /* linha do mapa baseado em Geolocation */
       const path = d3.geoPath().projection(projection);
@@ -119,7 +119,7 @@ export class MapChoroplethComponent implements OnInit {
   configurarLegenda() {
 
     this.svgLegend = d3.select(this.legendContainer.nativeElement)
-                      .attr("width", this.widthMapaBr + 100)
+                      .attr("width", this.widthMapaBr + 50)
                       .attr("height", 30);
 
     if (this.legendaDeCores && this.legendaDeCores.length > 0) {
