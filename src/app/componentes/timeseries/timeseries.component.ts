@@ -10,7 +10,7 @@ export class TimeseriesComponent implements OnInit {
 
   svg: any;
   ts: any;
-  width: number = 420;
+  width: number = 400;
   height = 300;
   margin = 30;
   dadosFinais: any[] = [];
