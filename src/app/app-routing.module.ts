@@ -7,11 +7,6 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/inicio',
-    pathMatch: 'full'
-  },
-  {
-    path: 'inicio',
     component: InicioComponent
   },
   {
@@ -21,6 +16,10 @@ const routes: Routes = [
   {
     path: 'links',
     component: LinksComponent
+  },
+  {
+    path: '**',
+    component: InicioComponent
   }
 ];
 
