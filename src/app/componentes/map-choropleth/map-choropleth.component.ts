@@ -12,7 +12,7 @@ export class MapChoroplethComponent implements OnInit {
 
   svg: any;
   svgLegend: any;
-  widthMapaBr = 600;
+  widthMapaBr = 500;
   heightMapaBr = 480;
   dados: any;
   legendaDeCores = [];
@@ -39,8 +39,8 @@ export class MapChoroplethComponent implements OnInit {
       const data = await d3.json("../../../assets/estados-brasil.json" );
       const topology = topojson.feature(data, data.objects['estados']);
       /* cria projeção do mapa centralizado na página */
-      const projection = d3.geoMercator().scale(250).center([-34, -11]).translate([this.widthMapaBr /2, this.heightMapaBr/2 ]);
-      projection.fitSize([this.widthMapaBr - 10, this.heightMapaBr - 10], topology);
+      const projection = d3.geoMercator().scale(25).center([-2, -0]).translate([this.widthMapaBr /2, this.heightMapaBr/2 ]);
+      projection.fitSize([this.widthMapaBr, this.heightMapaBr - 10], topology);
       /* linha do mapa baseado em Geolocation */
       const path = d3.geoPath().projection(projection);
       /* inicio do conteúdo do SVG */

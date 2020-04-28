@@ -2831,8 +2831,8 @@
     }
   }
 
-  @media (max-width: 769px) {
-    .TimeSeries,
+  @media (max-width: 760px) {
+   /* .TimeSeries,
     table,
     .header,
     .Level,
@@ -2846,8 +2846,8 @@
     .patients-summary
     .filters,
     .updates, .updates-header {
-      width: calc(100% - 2rem);
-    }
+     width: calc(100%);
+    } */
 
     .home {
       display: flex;
