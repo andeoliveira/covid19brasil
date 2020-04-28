@@ -38,7 +38,7 @@ export class TimeseriesComponent implements OnInit {
       return this.gerarData(dado.Date);
     });
 
-    const x = d3.scaleTime().domain(vlrExtentDate).range([ 0, this.width - this.margin - 30]);
+    const x = d3.scaleTime().domain(vlrExtentDate).range([ 0, this.width - this.margin - 50]);
 
     this.svg.append("g")
       .attr("transform", `translate(-4, ${this.height - this.margin - 20})`)
