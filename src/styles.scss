@@ -2831,13 +2831,11 @@
     }
   }
 
-  @media (max-width: 760px) {
-   /* .TimeSeries,
+  @media (max-width: 769px) {
+    .TimeSeries,
     table,
     .header,
     .Level,
-    .timeseries-header,
-    .TimeSeries-Parent,
     .Links,
     .Minigraph,
     .Summary,
@@ -2846,8 +2844,8 @@
     .patients-summary
     .filters,
     .updates, .updates-header {
-     width: calc(100%);
-    } */
+      width: calc(100% - 2rem);
+    }
 
     .home {
       display: flex;
