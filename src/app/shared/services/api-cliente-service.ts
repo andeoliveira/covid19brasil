@@ -19,7 +19,7 @@ export class ApiClienteService {
   }
 
   carregarTotalPais(): Observable<any> {
-    return this.http.get(this.urlCovid19 + 'live/country/brazil/status/confirmed');
+    return this.http.get(this.urlCovid19 + 'total/dayone/country/brazil');
   }
 
   carregarEstadoJsonMap(): Observable<any> {
