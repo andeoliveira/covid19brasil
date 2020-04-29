@@ -57,19 +57,20 @@ export class InicioComponent implements OnInit {
     )
   }
 
-  atualizarForm(resultApiList: any[]) {
+  atualizarForm(resultApiList) {
     const resultApi = resultApiList[resultApiList.length - 1];
     const resultApiAnt = resultApiList[resultApiList.length - 2];
 
     if (resultApi) {
       this.resetarForm();
       resultApi.Confirmed ? this.form.get('confirmados').setValue(resultApi.Confirmed) : 'Sem info.';
-      resultApi.Active ? this.form.get('ativos').setValue(resultApi.Active) : 'Sem info.';
       resultApi.Recovered ? this.form.get('recuperados').setValue(resultApi.Recovered): 'Sem info.';
       resultApi.Deaths ? this.form.get('obitos').setValue(resultApi.Deaths): 'Sem info.';
       resultApi.Date ? this.form.get('dataUltAtualizacao').setValue(this.gerarDataPtBr(resultApi.Date)): 'Sem info.'
       resultApi.Deaths ? this.form.get('obitosDia').setValue(resultApi.Deaths - resultApiAnt.Deaths) : '';
       resultApi.Confirmed ? this.form.get('confirmadosDia').setValue(resultApi.Confirmed - resultApiAnt.Confirmed) : '';
+      let ativos = (resultApi.Confirmed - (resultApi.Recovered - resultApi.Deaths));
+      resultApi.Confirmed ? this.form.get('ativos').setValue(ativos) : '0';
       this.form.get('obitosEstado').setValue(resultApi.Deaths);
       this.form.get('confirmadosEstado').setValue(resultApi.Confirmed);
       this.carregarHistorico();
@@ -140,9 +141,16 @@ export class InicioComponent implements OnInit {
     )
   }
 
+  gerarData(date: any): Date {
+    let nyear = new Date(date).getFullYear();
+    let ndia = new Date(date).getDate() + 1;
+    let nmes = new Date(date).getMonth();
+    return new Date(nyear, nmes, ndia)
+  }
+
   gerarDataPtBr(data: string): any {
     let nData = null;
-    nData = new Date(data).toLocaleDateString('pt-BR');
+    nData = this.gerarData(data).toLocaleDateString('pt-BR');
     return nData;
   }
 
