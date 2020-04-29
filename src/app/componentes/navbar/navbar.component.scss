@@ -1,0 +1,26 @@
+.navbar-menu {
+  display: flex;
+  flex-direction: row;
+}
+
+/* iPhone 1px ~ 480px  */
+@media only screen and (max-width: 480px) {
+  .navbar {
+    height: auto !important;
+  }
+
+  .navbar .navbar-menu {
+    flex-direction: column;
+    padding: 6px 0;
+  }
+
+  .navbar .navbar-menu a {
+    /*     width: 100%; */
+    margin: 4px 0;
+  }
+
+  .navbar .logo {
+    height: 3.5rem;
+    width: 3.5rem;
+  }
+}
