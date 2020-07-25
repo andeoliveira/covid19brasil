@@ -1,4 +1,4 @@
-# Covid19 Brasil - Dados
+# Covid19 Brasil - Dados: https://covid19br.info/
 
 <p align="center">
 <img src="https://i.ibb.co/xgCZcYG/covid.png" width="100%">
