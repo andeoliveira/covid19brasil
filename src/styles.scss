@@ -1884,7 +1884,15 @@
       padding-left: 1rem;
       padding-right: 1rem;
       width: 30rem;
-      line-height: 23px;
+      line-height: 23px;      
+      max-width: 100%;
+      box-sizing: border-box;
+
+      .button {
+        box-sizing: border-box;
+        margin-left: auto !important;
+        margin-right: auto !important;
+      }
     }
 
     .header {

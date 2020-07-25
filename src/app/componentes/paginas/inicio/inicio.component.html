@@ -65,7 +65,7 @@
         <thead>
           <tr>
             <th class="sticky state-heading" (click)="ordernarPorEstado()">
-              <div class="heading-content"><abbr title="State">Estado/Sigla</abbr>
+              <div class="heading-content"><abbr title="Estado/Sigla">Estado</abbr>
                 <div style="display: initial;">
                   <div [ngClass]="ordenacaoAscendente ? 'arrow-down' : 'arrow-up'"></div>
                 </div>
@@ -84,7 +84,7 @@
               </div>
             </th>
             <th class="sticky">
-              <div class="heading-content"><abbr class="" title="Taxa de mortalidade">Taxa Mortalidade </abbr>
+              <div class="heading-content"><abbr class="" title="Taxa de mortalidade">Taxa Mortalidade</abbr>
                 <div style="display: none;"><div class="arrow-down"></div></div>
               </div>
             </th>
@@ -126,7 +126,7 @@
               </td>
             </tr>
             <tr *ngIf="estado.index === i"  class="state-last-update">
-              <td colspan="2">
+              <td colspan="4">
                 <div class="last-update">
                   <h6>Atualizado em:&nbsp;</h6>
                   <h6>{{estado.date |date: 'dd/MM/yyyy'}}</h6>
@@ -134,14 +134,14 @@
               </td>
             </tr>
             <tr *ngIf="estado.index === i" style="animation-delay: 0.2s;" class="fadeInUp district-heading">
-              <td>
+              <td colspan="2">
                 <div class="heading-content"><abbr title="Cidade">Cidade</abbr>
                   <div style="display: initial;">
                     <div class="arrow-down"></div>
                   </div>
                 </div>
               </td>
-              <td>
+              <td colspan="2">
                 <div class="heading-content">
                   <abbr class="" title="Confirmados">Confirmados</abbr>
                   <div style="display: initial;">
@@ -152,8 +152,8 @@
             </tr>
             <ng-container *ngIf="estado.index === i && form.get('municipios').value">
               <tr style="animation-delay: 0.7s;" class="fadeInUp district" *ngFor="let cidade of form.get('municipios').value; let i = index">
-                <td style="font-weight: 600;">{{cidade.city}}</td>
-                <td>
+                <td colspan="2" style="font-weight: 600;">{{cidade.city}}</td>
+                <td colspan="2">
                   <span class="table__count-text">{{cidade.confirmed}}</span>
                 </td>
               </tr>

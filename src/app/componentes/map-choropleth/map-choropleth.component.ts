@@ -1,38 +1,80 @@
 import { ApiClienteService } from './../../shared/services/api-cliente-service';
-import { Component, OnInit, ElementRef, ViewChild, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Input, Output, EventEmitter, HostListener, OnDestroy } from '@angular/core';
 import * as d3 from 'd3';
 import * as topojson from 'topojson';
 import { extent, path } from 'd3';
+import { Subscription, Observable, BehaviorSubject } from 'rxjs';
+import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
 @Component({
   selector: 'map',
   templateUrl: './map-choropleth.component.html',
   styleUrls: ['./map-choropleth.component.scss']
 })
-export class MapChoroplethComponent implements OnInit {
+export class MapChoroplethComponent implements OnInit, OnDestroy {
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    if (this.svg) {
+      this.calcularTamanhoMapa();
+      
+    }
+  }
 
   svg: any;
   svgLegend: any;
+  widthPadraoMapa = 600;
+  heightPadraoMapa = 480;
   widthMapaBr = 380;
   heightMapaBr = 420;
   dados: any;
   legendaDeCores = [];
+  widthChange: BehaviorSubject<number>;
+  widthChangeSub: Subscription;
   @Input() confirmados: number;
   @Input() casosPorEstado: any[];
   @Output() estadoSelecionado = new EventEmitter();
   g: any;
+  @ViewChild("container", { static: true }) protected container: ElementRef;
   @ViewChild("brasil_mapa", { static: true }) protected chartContainer: ElementRef;
   @ViewChild("legenda_brasil_mapa", { static: true }) protected legendContainer: ElementRef;
 
   constructor(private api: ApiClienteService) { }
 
   ngOnInit() {
-    this.configurarMapa();
+    this.calcularTamanhoMapa();
+  }
+
+  ngOnDestroy() {
+    if (this.widthChange) {
+      this.widthChange.complete();
+    }
+  }
+
+  calcularTamanhoMapa() {
+    this.widthMapaBr = Math.min(this.widthPadraoMapa, this.container.nativeElement.offsetWidth);
+    const escala = this.widthMapaBr/this.widthPadraoMapa;
+    this.heightMapaBr =  Math.floor(this.heightPadraoMapa * escala);
+    
+    if (!this.widthChange){
+      this.widthChange = new BehaviorSubject<number>(this.widthMapaBr);
+      this.widthChange.pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+      ).subscribe(() => {
+        this.configurarMapa();
+      })
+    } else {
+      this.widthChange.next(this.widthMapaBr);
+    }
   }
 
   async configurarMapa() {
     if (this.casosPorEstado && this.casosPorEstado.length > 0) {
+      if (this.svg) {
+        this.svg.remove();
+      }
       /*cria o svg no html */
-      this.svg = d3.select(this.chartContainer.nativeElement);
+      this.svg = d3.select(this.chartContainer.nativeElement).append("svg");
       this.svg.attr('width', this.widthMapaBr);
       this.svg.attr('height', this.heightMapaBr);
       /* carrega os dados dos estados preparados para o mapa*/
@@ -118,7 +160,12 @@ export class MapChoroplethComponent implements OnInit {
 
   configurarLegenda() {
 
+    if (this.svgLegend) {
+      this.svgLegend.remove();
+    }
+
     this.svgLegend = d3.select(this.legendContainer.nativeElement)
+                      .append("svg")
                       .attr("width", this.widthMapaBr + 50)
                       .attr("height", 30);
 
